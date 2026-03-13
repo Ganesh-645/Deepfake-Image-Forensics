@@ -2,55 +2,70 @@
 
 ## 📌 Overview
 
-This project implements a lightweight **Deepfake Image Detection System** using classical **digital image forensics techniques**. The system analyzes uploaded images to identify potential **AI-generated or manipulated content** by examining hidden patterns in image data.
+This project implements a lightweight **Deepfake Image Detection System** using classical **digital image forensics techniques**. The application analyzes uploaded images to detect potential **AI-generated or manipulated content** by examining hidden patterns in image data.
 
-The application is built using **Python and Streamlit**, providing an interactive interface where users can upload images and instantly visualize forensic analysis results.
+The system uses **Error Level Analysis (ELA)** and **Fast Fourier Transform (FFT)** to identify anomalies in compression artifacts and frequency patterns that are often present in AI-generated images.
+
+The application is built using **Python and Streamlit**, providing an interactive web interface where users can securely log in and analyze images.
+
+---
+
+## 🔐 Authentication Layer
+
+To ensure controlled access, the application includes a simple **Signup and Login system** implemented using Streamlit session state.
+
+Features:
+
+* User **signup and login**
+* Session-based authentication
+* Sidebar logout option
+* Access control before using the analysis tool
+
+Once logged in, users can access the **Deepfake Analyzer dashboard**.
 
 ---
 
 ## ⚠️ Problem Statement
 
-Recent advancements in generative AI have made it possible to create highly realistic synthetic images (deepfakes). These images can be misused for:
+With the rapid advancement of generative AI models, it has become easier to create highly realistic synthetic images known as **deepfakes**. These images can be used for:
 
 * misinformation 📰
 * identity fraud 🪪
 * digital manipulation 🎭
 
-Since deepfakes often appear visually authentic, detecting them requires analyzing subtle patterns that are not visible to the human eye.
+Since deepfakes often appear visually authentic, detecting them requires analyzing subtle patterns hidden inside the image data.
 
-This project provides a **forensic analysis tool** that detects suspicious patterns within images using computational techniques.
+This project provides a **forensic analysis tool** that helps identify suspicious image artifacts.
 
 ---
 
-## 🧠 Approach
-
-The system combines two complementary forensic techniques to analyze images.
+## 🧠 Detection Techniques
 
 ### 🔥 Error Level Analysis (ELA)
 
-ELA detects inconsistencies in **image compression**.
+ELA detects inconsistencies in image compression.
 
-When an image is saved in JPEG format, compression artifacts are distributed fairly evenly. If a portion of the image has been edited or generated separately, it may compress differently.
+Process:
 
-Steps performed:
+1. The image is recompressed at a fixed JPEG quality.
+2. The difference between the original and recompressed image is calculated.
+3. Differences are amplified to highlight suspicious areas.
 
-1. Re-save the image using JPEG compression.
-2. Compute the difference between the original and recompressed image.
-3. Amplify the difference to create an **ELA heatmap** highlighting suspicious regions.
+Regions with abnormal brightness in the ELA heatmap may indicate manipulation.
 
 ---
 
 ### 📊 Frequency Domain Analysis (FFT)
 
-Fast Fourier Transform (FFT) converts the image from the **spatial domain (pixels)** to the **frequency domain (patterns)**.
+Fast Fourier Transform converts an image from the **spatial domain** (pixel space) to the **frequency domain**.
 
-AI-generated images sometimes introduce unusual patterns such as:
+AI-generated images often introduce unusual frequency patterns such as:
 
-* repetitive textures
-* abnormal frequency distributions
-* unnatural high-frequency components
+* repeated textures
+* abnormal high-frequency artifacts
+* inconsistent spectral distributions
 
-The **frequency spectrum visualization** helps detect these artifacts.
+The FFT spectrum visualization helps detect these anomalies.
 
 ---
 
@@ -61,7 +76,7 @@ The system computes two anomaly scores:
 * **ELA Score** → measures compression inconsistencies
 * **FFT Score** → measures abnormal frequency patterns
 
-These scores are combined into a weighted anomaly score used to classify the image.
+These scores are combined into a weighted anomaly score.
 
 | Combined Score | Classification              |
 | -------------- | --------------------------- |
@@ -73,33 +88,35 @@ These scores are combined into a weighted anomaly score used to classify the ima
 
 ## ✨ Features
 
-* Upload **single or multiple images** 📤
-* Visualize **ELA heatmaps** 🔥
-* Visualize **FFT frequency spectrum** 📊
-* Automatic **image classification** 🤖
-* Displays **confidence score** 📈
-* Interactive **Streamlit web interface** 🌐
+* 🔐 User authentication (signup & login)
+* 📤 Upload one or multiple images
+* 🔥 Visualize ELA heatmaps
+* 📊 Visualize FFT frequency spectrum
+* 🤖 Automatic deepfake classification
+* 📈 Confidence score display
+* 🌐 Interactive Streamlit interface
 
 ---
 
 ## 🛠 Technologies Used
 
-* **Python**
-* **Streamlit**
-* **NumPy**
-* **Pillow (PIL)**
-* **Matplotlib**
+* Python
+* Streamlit
+* NumPy
+* Pillow (PIL)
+* Matplotlib
 
 ---
 
 ## 📂 Project Structure
 
-```id="8pjymc"
-deepfake-image-forensics
+```
+Deepfake-Image-Forensics
 │
 ├── app.py
 ├── requirements.txt
-└── README.md
+├── README.md
+└── LICENSE
 ```
 
 ---
@@ -108,19 +125,19 @@ deepfake-image-forensics
 
 Clone the repository:
 
-```id="tsd7p6"
-git clone https://github.com/yourusername/deepfake-image-forensics.git
+```
+git clone https://github.com/Ganesh-645/Deepfake-Image-Forensics.git
 ```
 
-Navigate to the project folder:
+Navigate to the project directory:
 
-```id="iq7eqc"
-cd deepfake-image-forensics
+```
+cd Deepfake-Image-Forensics
 ```
 
 Install dependencies:
 
-```id="1drd0a"
+```
 pip install -r requirements.txt
 ```
 
@@ -128,44 +145,48 @@ pip install -r requirements.txt
 
 ## ▶️ Running the Application
 
-Start the Streamlit app:
+Start the Streamlit application:
 
-```id="0o4t2k"
+```
 streamlit run app.py
 ```
 
-The application will open automatically in your browser.
+The application will automatically open in your browser.
 
 ---
 
-## 🔎 Example Workflow
+## 🔎 Application Workflow
 
-1. Upload an image (JPG or PNG).
-2. The system performs **ELA and FFT analysis**.
-3. Visualizations are generated.
-4. The system outputs a **prediction and confidence score**.
+1️⃣ User signs up or logs in
+2️⃣ Access the Deepfake Analyzer dashboard
+3️⃣ Upload one or more images
+4️⃣ System performs **ELA and FFT analysis**
+5️⃣ Visualizations and prediction results are displayed
 
 ---
 
 ## ⚠️ Limitations
 
-* Classical forensic methods may not detect all advanced deepfakes.
-* Heavily compressed or post-processed images may reduce detection accuracy.
-* This project is intended as a **research and educational prototype**.
+* Classical forensic techniques may not detect all advanced deepfakes.
+* Very high compression may reduce detection accuracy.
+* The authentication system is **session-based and intended for demonstration purposes**.
 
 ---
 
 ## 🚀 Future Improvements
 
-Possible improvements include:
+Possible enhancements include:
 
-* Integration of **deep learning models**
-* Detection of **GAN-specific artifacts**
-* Dataset-based threshold calibration
-* Extension to **video deepfake detection**
+* Deep learning based classifiers
+* GAN artifact detection
+* Dataset-trained thresholds
+* Video deepfake detection
+* Cloud-based user authentication
 
 ---
 
 ## 👨‍💻 Author
 
-Developed as part of a **Hackathon Project on Deepfake Image Forensics Detection**.
+Ganesh
+
+Hackathon Project – **Deepfake Image Forensics Detection**
