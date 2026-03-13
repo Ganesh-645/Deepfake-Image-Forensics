@@ -1,5 +1,13 @@
 # 🕵️ Deepfake Image Forensic Analyzer
 
+## 🌐 Live Demo
+
+You can try the application here:
+
+https://deepfake-image-forensics-cxk9nd6zxy6xsnflrewps6.streamlit.app/
+
+---
+
 ## 📌 Overview
 
 This project implements a lightweight **Deepfake Image Detection System** using classical **digital image forensics techniques**. The application analyzes uploaded images to detect potential **AI-generated or manipulated content** by examining hidden patterns in image data.
@@ -190,3 +198,4 @@ Possible enhancements include:
 Ganesh
 
 Hackathon Project – **Deepfake Image Forensics Detection**
+
