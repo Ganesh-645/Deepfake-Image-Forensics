@@ -4,6 +4,87 @@ from PIL import Image, ImageChops, ImageEnhance
 import io
 import matplotlib.pyplot as plt
 
+# =========================
+# SIMPLE SIGNUP + LOGIN LAYER
+# =========================
+
+# In-memory "database" of users for this demo
+if "users" not in st.session_state:
+    st.session_state.users = {}  # {username: password}
+
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
+if "username" not in st.session_state:
+    st.session_state.username = ""
+
+
+def signup_form():
+    st.subheader("Create an account")
+    with st.form("signup_form", clear_on_submit=True):
+        new_user = st.text_input("Choose a username")
+        new_pass = st.text_input("Choose a password", type="password")
+        confirm_pass = st.text_input("Confirm password", type="password")
+        signup_btn = st.form_submit_button("Sign up")
+
+        if signup_btn:
+            if not new_user or not new_pass:
+                st.error("Username and password cannot be empty")
+            elif new_user in st.session_state.users:
+                st.error("Username already exists, please choose another")
+            elif new_pass != confirm_pass:
+                st.error("Passwords do not match")
+            else:
+                st.session_state.users[new_user] = new_pass
+                st.success("Account created successfully! You can now log in.")
+
+
+def login_form():
+    st.subheader("Log in to your account")
+    with st.form("login_form"):
+        username = st.text_input("Username")
+        password = st.text_input("Password", type="password")
+        login_btn = st.form_submit_button("Log in")
+
+        if login_btn:
+            if username in st.session_state.users and st.session_state.users[username] == password:
+                st.session_state.logged_in = True
+                st.session_state.username = username
+                st.success("Login successful! Loading app...")
+                st.rerun()  # <-- updated
+            else:
+                st.error("Invalid username or password")
+
+
+def auth_ui():
+    st.title("🔐 Deepfake Analyzer Portal")
+    tabs = st.tabs(["Log in", "Sign up"])
+    with tabs[0]:
+        login_form()
+    with tabs[1]:
+        signup_form()
+
+
+def logout_button():
+    st.sidebar.write(f"Logged in as: **{st.session_state.username}**")
+    if st.sidebar.button("Logout"):
+        st.session_state.logged_in = False
+        st.session_state.username = ""
+        st.rerun()  # <-- updated
+
+
+# If not logged in, show login/signup and stop
+if not st.session_state.logged_in:
+    auth_ui()
+    st.stop()
+
+# Logged in: show logout in sidebar
+logout_button()
+
+# =========================
+# YOUR ORIGINAL APP LOGIC
+# =========================
+
 # -------------------------
 # ELA COMPUTATION
 # -------------------------
@@ -62,7 +143,6 @@ st.write(
     "to detect potential AI-generated or manipulated images."
 )
 
-# accept_multiple_files=True returns a list of UploadedFile objects [web:66]
 uploaded_files = st.file_uploader(
     "Upload JPG / PNG Image(s)",
     type=["jpg", "jpeg", "png"],
