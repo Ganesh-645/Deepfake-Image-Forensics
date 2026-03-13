@@ -106,6 +106,27 @@ These scores are combined into a weighted anomaly score.
 
 ---
 
+## ⚠️ Accuracy Disclaimer
+
+This application uses classical image forensic techniques such as **Error Level Analysis (ELA)** and **Frequency Domain Analysis (FFT)** to detect potential AI-generated or manipulated images.
+
+While these techniques are effective for identifying many anomalies, the system is **not a perfect deepfake detector**.
+
+Estimated accuracy for this prototype is approximately:
+
+**~80% detection reliability under typical conditions.**
+
+Factors that may affect accuracy include:
+
+- heavy image compression
+- image resizing or filtering
+- advanced generative AI models
+- post-processing edits
+
+Therefore, the results produced by this application should be treated as **forensic indicators rather than definitive proof** of manipulation.
+
+---
+
 ## 🛠 Technologies Used
 
 * Python
@@ -198,4 +219,5 @@ Possible enhancements include:
 Ganesh
 
 Hackathon Project – **Deepfake Image Forensics Detection**
+
 
